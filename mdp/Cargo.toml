@@ -1,0 +1,4 @@
+[package]
+name = "mdp"
+version = "0.1.0"
+authors = ["Fabio Castro <fabio@cesma.usb.ve>", "David Lilue <dvdalilue@gmail.com>"]
