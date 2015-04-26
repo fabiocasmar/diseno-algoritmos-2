@@ -1,0 +1,13 @@
+/// Diseño de Algoritmos II 
+/// Maximum Diversity Problem (M.)
+/// # Examples
+///
+/// ```
+/// let five = 5;
+///
+/// assert_eq!(6, add_one(5));
+/// ```
+
+fn main() {
+    println!("Hello, world!");
+}
