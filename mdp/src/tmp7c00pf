@@ -1,8 +1,0 @@
-/// Universidad Simón Bolivar
-/// Diseño de Algoritmos II 
-/// Maximum Diversity Problem (M.D.P)
-/// Autores:
-
-fn main() {
-    println!("Hello, world!");
-}
