@@ -33,10 +33,14 @@ int main () {
       solucion_temp.push_back(aleatorio(n));
     }
     distancia_solucion_temp = 0;
-    for(int i = 0; i < m; i++){
-      dist_temp += costos[solucion_temp[i]][solucion_temp[i+1]];
+    for(int j = 0; i < m; i++){
+      for(int i = 0; i < m; i++){
+        if(i!=j){
+          dist_temp += costos[j][solucion_temp[i]];
+        }
+      }
     }
-    distancia_solucion_temp += costos[solucion_temp[m-1]][solucion_temp[0]];
+
     while(dist_temp!=dist_ant){
       aleatorio_vecindad = aleatorio(n);
       dist_ant = dist_temp;
@@ -45,7 +49,7 @@ int main () {
       for(int j = 0; j < solucion_temp.size();j++){
         // Calculo de la nueva distancia
         for(int i =0; i < solucion_temp.size(); i++){
-          if(i-1!=j){
+          if((i-1!=j)||(i)){
             distancia_solucion_temp += costos[solucion_temp[i % solucion_temp.size()]][solucion_temp[(i+1) % solucion_temp.size()]];
           }else{
             distancia_solucion_temp += costos[solucion_temp[(i-1) % solucion_temp.size()]][aleatorio_vecindad] +
