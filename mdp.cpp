@@ -16,13 +16,12 @@ int aleatorio(int n){
 int main () {
 
     // Variables
-    int n,m,temp_a,temp_b,num,cant_aleatorios,aleatorio_vecindad,numero_seleccionado;
+    int n,m,temp_a,temp_b,aleatorio_vecindad,numero_seleccionado,dist_ant;
     double dist_temp = -1.0;
     double dist_anterior;
-    double costos[3000][3000];
-    vector< int > solucion_temp;
-    std::vector<char> v;
+    double costos[1000][1000];
     double distancia_solucion_temp;
+    vector< int > solucion_temp;
 
     // Lectura
     cin >> n >> m;
@@ -35,12 +34,13 @@ int main () {
     }
     distancia_solucion_temp = 0;
     for(int i = 0; i < m; i++){
-      distancia_solucion_temp += costos[solucion_temp[i]][solucion_temp[i+1]];
+      dist_temp += costos[solucion_temp[i]][solucion_temp[i+1]];
     }
     distancia_solucion_temp += costos[solucion_temp[m-1]][solucion_temp[0]];
-    while(dist_temp!=dist_anterior){
-      dist_anterior = dist_temp;
+    while(dist_temp!=dist_ant){
       aleatorio_vecindad = aleatorio(n);
+      dist_ant = dist_temp;
+      distancia_solucion_temp = 0;
       // Recorrido de la solucion temporal
       for(int j = 0; j < solucion_temp.size();j++){
         // Calculo de la nueva distancia
