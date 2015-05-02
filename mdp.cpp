@@ -7,6 +7,8 @@
 #include <algorithm> 
 using namespace std;
 
+double costos[4000][4000];
+
 int main () {
 
     // Variables
@@ -17,7 +19,7 @@ int main () {
     double dist_ant= -1.0;
     bool cambio = false;
     bool valido = false;
-    double costos[3000][3000];
+    
     double distancia_solucion_temp;
     vector< int > solucion_temp;
 
