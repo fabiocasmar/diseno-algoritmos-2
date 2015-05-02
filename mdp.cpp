@@ -7,62 +7,81 @@
 #include <algorithm> 
 using namespace std;
 
-
-int aleatorio(int n){
-    srand(time(NULL));
-    return 1 + rand() % (n - 1);
-}
-
 int main () {
 
     // Variables
-    int n,m,temp_a,temp_b,aleatorio_vecindad,numero_seleccionado,dist_ant;
-    double dist_temp = -1.0;
-    double dist_anterior;
-    double costos[1000][1000];
+    int n,m,temp_a,temp_b,aleatorio_vecindad,numero_seleccionado, temp;
+    int intentos = 0;
+    int max_intento = 100000;
+    double dist_temp = 0.0;
+    double dist_ant= -1.0;
+    bool cambio = false;
+    bool valido = false;
+    double costos[3000][3000];
     double distancia_solucion_temp;
     vector< int > solucion_temp;
 
     // Lectura
     cin >> n >> m;
     while(!cin.eof()){
-      cin >> temp_a >> temp_a >> dist_temp;
+      cin >> temp_a >> temp_b >> dist_temp;
       costos[temp_a][temp_b]=dist_temp;
     }
-    for(int i = 0; i < m; i++){
-      solucion_temp.push_back(aleatorio(n));
-    }
-    distancia_solucion_temp = 0;
-    for(int j = 0; i < m; i++){
-      for(int i = 0; i < m; i++){
-        if(i!=j){
-          dist_temp += costos[j][solucion_temp[i]];
-        }
-      }
-    }
 
-    while(dist_temp!=dist_ant){
-      aleatorio_vecindad = aleatorio(n);
-      dist_ant = dist_temp;
-      distancia_solucion_temp = 0;
-      // Recorrido de la solucion temporal
-      for(int j = 0; j < solucion_temp.size();j++){
-        // Calculo de la nueva distancia
-        for(int i =0; i < solucion_temp.size(); i++){
-          if((i-1!=j)||(i)){
-            distancia_solucion_temp += costos[solucion_temp[i % solucion_temp.size()]][solucion_temp[(i+1) % solucion_temp.size()]];
-          }else{
-            distancia_solucion_temp += costos[solucion_temp[(i-1) % solucion_temp.size()]][aleatorio_vecindad] +
-                                        costos[aleatorio_vecindad][solucion_temp[(i+1) % solucion_temp.size()]];
-            i=i+1;
+    srand(time(NULL));
+    while(solucion_temp.size()<m){
+        int temp = rand() % (n);
+        valido = true;
+        for(int j = 0; j < solucion_temp.size(); j++){
+          if(temp == solucion_temp[j]){
+            valido = false;
+            break;
           }
         }
-        if(distancia_solucion_temp > dist_temp){
-          dist_temp = distancia_solucion_temp;
-          numero_seleccionado = j;
+        if(valido){
+          solucion_temp.push_back(temp);
+        }
+    }
+
+
+    for(int i=0; i < solucion_temp.size()-1; i++){
+      for(int j = i+1; j < solucion_temp.size();j++){
+          dist_temp += costos[solucion_temp[i]][solucion_temp[j]];
+      }
+    }
+    cout << dist_temp << endl;
+
+    while(intentos<max_intento){
+      dist_ant = -1.0;
+      while(dist_temp!=dist_ant){
+        aleatorio_vecindad = rand() % (n);
+        dist_ant = dist_temp;
+        cambio = false;
+        // Recorrido de la solucion temporal
+        for(int k = 0; k < solucion_temp.size();k++){
+          temp = solucion_temp[k];
+          solucion_temp[k] = aleatorio_vecindad; 
+          // Calculo de la nueva distancia
+          distancia_solucion_temp= 0.0;
+          
+          for(int i=0; i < solucion_temp.size()-1; i++){
+            for(int j = i+1; j < solucion_temp.size();j++){
+                distancia_solucion_temp += costos[solucion_temp[i]][solucion_temp[j]];
+            }
+          }
+          if(distancia_solucion_temp > dist_temp){
+            dist_temp = distancia_solucion_temp;
+            numero_seleccionado = k;
+            cambio = true;
+          }
+          solucion_temp[k] = temp;
+        }
+        if(cambio){
+         solucion_temp[numero_seleccionado]=aleatorio_vecindad;
+         intentos = -1;
         }
       }
-      solucion_temp[numero_seleccionado]=aleatorio_vecindad;
+      intentos = intentos + 1;
     }
-    cout << dist_temp;
+    cout << dist_temp << endl;
   }
