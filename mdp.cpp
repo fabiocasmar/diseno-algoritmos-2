@@ -7,6 +7,7 @@
 #include <algorithm> 
 using namespace std;
 
+// Si no se declara en este punto, da error de tamaño de pila
 double costos[4000][4000];
 
 int main () {
