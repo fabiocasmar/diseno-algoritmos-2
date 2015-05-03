@@ -49,15 +49,19 @@ int main () {
         }
     }
 
+    // Calculo de la sumatoria de la solucion Inicial
     dist_sol = 0.0;
     for(int i=0; i < solucion_temp.size()-1; i++){
         for(int j = i+1; j < solucion_temp.size();j++){
             dist_sol =  dist_sol + costos[solucion_temp[i]][solucion_temp[j]];
         }
     }
+    // Imprimo solucion Inicial
     cout << dist_sol << endl;
 
+    // Ciclo del LS
     while(dist_sol!=dist_ant){
+        // Calculo del aleatorio para la vencindad
         while(true){
             int temp = rand() % (n);
             int valido = true;
@@ -74,7 +78,10 @@ int main () {
         }
         dist_ant = dist_sol;
         cambio = false;
-        // Recorrido de la solucion temporal
+
+        // Ciclo que recorre cada posicion de la solucion temporal
+            // y coloca en cada posicion el punto aleatorio obtenido
+                // Luego agarra el mejor de ellos
         for(int k = 0; k < solucion_temp.size();k++){
             temp = solucion_temp[k];
             solucion_temp[k] = aleatorio_vecindad; 
@@ -89,6 +96,7 @@ int main () {
                 dist_sol = dist_temp;
                 numero_seleccionado = k;
                 cambio = true;
+                break;
             }
             solucion_temp[k] = temp;
         }
@@ -97,6 +105,7 @@ int main () {
             intentos = -1;
         }
     }
-  
+
+    // Imprimo la solucion obtenida
     cout << dist_sol << endl;
   }
