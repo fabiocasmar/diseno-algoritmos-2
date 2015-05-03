@@ -1,0 +1,157 @@
+\documentclass{ci5652}
+\usepackage{graphicx,amssymb,amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage{paralist}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+%----------------------- Macros and Definitions --------------------------
+
+% Add all additional macros here, do NOT include any additional files.
+
+% The environments theorem (Theorem), invar (Invariant), lemma (Lemma),
+% cor (Corollary), obs (Observation), conj (Conjecture), and prop
+% (Proposition) are already defined in the ci5652.cls file.
+
+%----------------------- Title -------------------------------------------
+
+\title{Maximum Diversity Problem}
+
+\author{ Castro, Fabio
+        \and
+        Lilue, David}
+
+%------------------------------ Text -------------------------------------
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+
+\begin{abstract}
+This \textit{paper}  we test and develop solutions method for the maximun diversity problem. This problem consists of
+selecting a subset of maximum diversity from a given set of elements. It arises in a wide
+range of real-world settings and we can find a large number of studies, in which heuristic
+and metaheuristic methods are proposed. However, probably due to the fact that this
+problem has been referenced under different names, we have only found limited
+comparisons with a few methods on some sets of instances.
+We also computational comparison of the methods using the 
+library MDPLIB.
+
+
+In this \textit{paper}  we are going to development and testing, solutions method for the mdp, using Meta-Heuristic of trayectory, Meta-Herustic with constructive method and a Local Search Alogoritm that we propose, and finally comparing our results with reported in the literature.
+
+\end{abstract}
+
+\section{Introduction}
+The maximun diversity problem (MDP) consist on select the best subset of of m elements
+from a set of n elements in wich the sum of the distances between the chosen
+elements is maximized (no repetition).  In Kuo, Glover and Dhir et al. (1993), the authors say depending how to measure the mdp, we are talking about of a different variants of the problem, MaxSum, MaxMin, etc. Then, the definition of distance is customizable in function of the problem. This problem arises in a wide range of real-world settings and it has been the subject of several previous studies beginning with the work by Kuo, Glover and Dhir et al. (1993), the maximum diversity problem has applications in plant breeding,
+social problems, ecological preservation, pollution control, product design, capital
+investment, workforce management, curriculum design and genetic engineering. In the majority case, we assume that a point is a set of attributes. In that way, the problem is a multiobjective optimization problem.
+
+
+\section{Theoretical Frame}
+We are going to define the distance for the maximun diversity problem (MDP), let  
+{$s_{ik}$}
+be the state or value of the {$k_{th}$} attribute of element {$i$}, where {$k = 1, ..., K$}. Then the distance between elements {$i$} and {$j$} we can formally definite as: 
+\[  d_{ij}  =  \sqrt{ \sum_{k=1}^{K} (s_{ik}-s_{jk})^{2}}  \]
+
+In our case for simplicity, we are going abstract the distance from our problem, and we are going to use {$d_{ij}$} as euclidean distance between {$i$} and {$j$}. The distance values are
+then used to formulate the MDP as a lineal programing problem:
+
+\[ Maximize  =  \sum_{i=1}^{n-1} \sum_{j=i+1}^{n} d_{ij}  x_{i}  x_{j} \]
+\[ Subject To:     \sum_{l=1}^{n} x_{l} = m \]
+\[  x_{l}  = 0,1  \]
+\[ 0 <= l <= n \]
+
+\section{Previous Investigations}
+
+That formulation is an \textit{Np-Hard}  problem, proved by Jay B. Ghosh (1996).
+
+M Gallego, A Duarte, M Laguna, R Martí et al. (2010) propose use hybrid heuristics procedures within the
+scatter search framework with the goal of uncovering the most effective designs to tackle
+this difficult but important problem. They research revealed the effectiveness of adding
+simple memory structures (based on recency and frequency) to key scatter search
+mechanisms. ~\cite{so2005}
+
+In Glover et al. (1998), four different heuristics are proposed for this problem. Since different versions of this problem include additional constraints, the objective is to design heuristics whose basic moves for transitioning from one solution to another are both simple and flexible, allowing these moves to be adapted to multiple settings. Moves that are especially attractive in this context are constructive and destructive moves that drive the search to approach and cross feasibility boundaries from different directions. Such moves are also highly natural in the maximum diversity problem, where the goal is to determine an optimal composition for a set of selected elements. The authors compare the solution obtained with their heuristics with the optimal solution in small instances ({$n<=30$}).
+
+Martí et al. (2010) showed that the three linear integer formulations proposed in Kuo et
+al. (1993) are only able to solve small problems with Cplex 8.0 ({$n <= 15$}), and ({$15 <= n <= 30$})
+for some values of {$m$}. This is why they proposed a branch and bound algorithm to
+provably solve medium sized problems ({$n <= 50$}), and ({$50 <= n <= 150$}) for some values of {$m$}.
+Independently, Erkut (1990) and Pisinger (2006) also proposed branch and bound
+algorithms: the former is limited to solve small problems while the latter is also able to
+solve medium sized problems.
+
+M Gallego, A Duarte, M Laguna, R Martí et al.  (2010) reviews all the heuristics and metaheuristics for finding near-optimal solutions for the MDP and presents the benchmark library MDPLIB, wich we are are going to use for our work.
+
+In this \textit{paper}  we are going to development and testing, solutions method for the mdp, using Meta-Heuristic of trayectory, Meta-Herustic with constructive method and a Local Search Alogoritm that we propose, and finally comparing our results with reported in the literature.
+
+
+\section{Implementation Model}
+
+\section{Algorithm}
+
+\begin{algorithm}
+ \DontPrintSemicolon
+ \vspace*{0.1cm}
+ \KwIn{n (set size), m (subset size), matrix(n*n with distance of any pair) }
+ \KwOut{(optimal size found)}
+ Select {$I$} as a random initial solution\;
+ {$ sol = sum\_of\_distance(I) $}\;
+ {$ sol\_ini = sol $}\;
+ \While{$ last\_sol != sol $}{
+    {$ last\_sol = sol $}\;
+    {$ node\_random = random()\%n $}\;
+    \ForEach{$i<I.size()$}{
+        {$ temp = I[i] $}\;
+        {$ I[i] = node\_random $}\;
+        {$ sol\_temp = sum\_of\_distance(I) $}\;
+        \If{$ sol_temp > sol $}{
+            {$ select = i $}\;
+            {$ change = true $}\;
+            {$ sol = sol_temp $}\;
+        }
+        {$ I[i] = temp $}\;
+    }
+    \If{$change$}{
+    {$ I[select] = node\_random $}\;
+    }
+ }
+ \KwRet{sol, sol\_ini}
+ \vspace*{0.1cm}
+ \caption{Local Search}
+\end{algorithm}
+
+Hola.
+
+\section*{Conclusions}
+
+
+%---------------------------- Bibliography -------------------------------
+
+% Please add the contents of the .bbl file that you generate,  or add bibitem entries manually if you like.
+% The entries should be in alphabetical order
+\small
+\bibliographystyle{abbrv}
+
+\begin{thebibliography}{99}
+
+\bibitem{so2005}
+C. So and H. So.
+\newblock A groundbreaking result.
+\newblock {\em Journal of Everything}, 59(2):23--37, 2005.
+
+
+\end{thebibliography}
+
+
+\newpage
+\section*{Apéndice}
+
+Bla.
+
+\end{document}

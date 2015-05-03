@@ -12,6 +12,11 @@ double costos[4000][4000];
 
 int main () {
 
+/*
+
+*/
+
+*/
     // Variables
     int n = 0,m = 0,  temp = 0, temp_a = 0, temp_b = 0, 
         aleatorio_vecindad = 0, numero_seleccionado = 0;
