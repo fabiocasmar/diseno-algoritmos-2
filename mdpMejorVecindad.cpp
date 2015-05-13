@@ -10,15 +10,23 @@ using namespace std;
 // Si no se declara en este punto, da error de tamaño de pila
 double costos[4000][4000];
 
-int main () {
-
+int main()
+{
     // Variables
-    int n = 0,m = 0,  temp = 0, temp_a = 0, temp_b = 0, 
-        aleatorio_vecindad = 0, numero_seleccionado = 0;
-    int intentos = 0;
-    double dist_ant = 0.0, dist_temp = 0.0, dist_sol = 0.0;
-    bool cambio = false, valido = false;
-    vector< int > solucion_temp;
+    int n = 0,
+        m = 0,
+        temp   = 0,
+        temp_a = 0,
+        temp_b = 0, 
+        aleatorio_vecindad  = 0,
+        numero_seleccionado = 0,
+        intentos = 0;
+    double dist_ant  = 0.0,
+           dist_temp = 0.0,
+           dist_sol  = 0.0;
+    bool cambio = false,
+         valido = false;
+    vector<int> solucion_temp;
 
     // Inicio de la semilla para el aleatorio
     srand(time(NULL));
