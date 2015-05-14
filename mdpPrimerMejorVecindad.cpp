@@ -62,15 +62,23 @@ int distance(vector<int> *v, double (*cost)[MSIZE][MSIZE])
 
 int main () {
     // Variables
-    int n = 0, m = 0, temp = 0, temp_a = 0, temp_b = 0, 
-        aleatorio_vecindad = 0, numero_seleccionado = 0;
-    int intentos = 0;
-    double dist_ant = 0.0, dist_temp = 0.0, dist_sol = 0.0;
-    bool cambio = false, valido = false;
+    static double costos[MSIZE][MSIZE];
+
+    int n = 0,
+        m = 0,
+        temp = 0,
+        temp_a = 0,
+        temp_b = 0, 
+        aleatorio_vecindad = 0,
+        numero_seleccionado = 0,
+        intentos = 0;
+
+    double dist_ant  = 0.0,
+           dist_temp = 0.0,
+           dist_sol  = 0.0;
+
     vector<int> solucion_temp;
 
-    static double costos[MSIZE][MSIZE];
-    
     // Inicio de la semilla para el aleatorio
     //srand(time(NULL));
     srand(SEED);
@@ -97,28 +105,34 @@ int main () {
     // Imprimo solucion Inicial
     cout << dist_sol << endl;
 
-    // Ciclo del LS
-    while(dist_sol!=dist_ant){
-        // Calculo del aleatorio para la vencindad
-        aleatorio_vecindad = randomElem(&solucion_temp, n);
-        dist_ant = dist_sol;
+    intentos = int(700*n/m);
 
-        // Ciclo que recorre cada posicion de la solucion temporal
-        // y coloca en cada posicion el punto aleatorio obtenido
-        // Luego agarra el mejor de ellos
-        for(int k = 0; k < solucion_temp.size();k++){
-            temp = solucion_temp[k];
-            solucion_temp[k] = aleatorio_vecindad; 
-            
-            // Calculo de la nueva distancia
-            dist_temp = distance(&solucion_temp, &costos);
+    while (intentos > 0)
+    {
+        // Ciclo del LS
+        dist_ant = 0.0;
+        while(dist_sol!=dist_ant) {
+            // Calculo del aleatorio para la vencindad
+            aleatorio_vecindad = randomElem(&solucion_temp, n);
+            dist_ant = dist_sol;
+            // Ciclo que recorre cada posicion de la solucion temporal
+            // y coloca en cada posicion el punto aleatorio obtenido
+            // Luego agarra el mejor de ellos
+            for(int k = 0; k < solucion_temp.size();k++)
+            {
+                temp = solucion_temp[k];
+                solucion_temp[k] = aleatorio_vecindad;
+                // Calculo de la nueva distancia
+                dist_temp = distance(&solucion_temp, &costos);
 
-            if(dist_temp > dist_sol){
-                dist_sol = dist_temp;
-                break;
+                if(dist_temp > dist_sol){
+                    dist_sol = dist_temp;
+                    break;
+                }
+                solucion_temp[k] = temp;
             }
-            solucion_temp[k] = temp;
         }
+        intentos--;
     }
     // Imprimo la solucion obtenida
     cout << dist_sol << endl;
