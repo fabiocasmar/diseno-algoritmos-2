@@ -12,15 +12,10 @@ double costos[4000][4000];
 
 int main () {
 
-/*
-
-*/
-
-*/
     // Variables
     int n = 0,m = 0,  temp = 0, temp_a = 0, temp_b = 0, 
-        aleatorio_vecindad = 0, numero_seleccionado = 0;
-    int intentos = 0;
+        aleatorio_vecindad = 0, numero_seleccionado = 0, 
+        cant_it = 0, intentos = 0, max_it = 100000;
     double dist_ant = 0.0, dist_temp = 0.0, dist_sol = 0.0;
     bool cambio = false, valido = false;
     vector< int > solucion_temp;
@@ -64,51 +59,55 @@ int main () {
     // Imprimo solucion Inicial
     cout << dist_sol << endl;
 
-    // Ciclo del LS
-    while(dist_sol!=dist_ant){
-        // Calculo del aleatorio para la vencindad
-        while(true){
-            int temp = rand() % (n);
-            int valido = true;
-            for(int j = 0; j < solucion_temp.size(); j++){
-                if(temp == solucion_temp[j]){
-                    valido = false;
+    while(cant_it < max_it){
+        // Ciclo del LS
+        while(dist_sol!=dist_ant){
+            // Calculo del aleatorio para la vencindad
+            while(true){
+                int temp = rand() % (n);
+                int valido = true;
+                for(int j = 0; j < solucion_temp.size(); j++){
+                    if(temp == solucion_temp[j]){
+                        valido = false;
+                        break;
+                    }
+                }
+                if(valido){
+                    aleatorio_vecindad = temp;
                     break;
                 }
             }
-            if(valido){
-                aleatorio_vecindad = temp;
-                break;
-            }
-        }
-        dist_ant = dist_sol;
-        cambio = false;
+            dist_ant = dist_sol;
+            cambio = false;
 
-        // Ciclo que recorre cada posicion de la solucion temporal
-            // y coloca en cada posicion el punto aleatorio obtenido
-                // Luego agarra el mejor de ellos
-        for(int k = 0; k < solucion_temp.size();k++){
-            temp = solucion_temp[k];
-            solucion_temp[k] = aleatorio_vecindad; 
-            // Calculo de la nueva distancia
-            dist_temp= 0.0;
-            for(int i=0; i < solucion_temp.size()-1; i++){
-                for(int j = i+1; j < solucion_temp.size();j++){
-                    dist_temp += costos[solucion_temp[i]][solucion_temp[j]];
+            // Ciclo que recorre cada posicion de la solucion temporal
+                // y coloca en cada posicion el punto aleatorio obtenido
+                    // Luego agarra el mejor de ellos
+            for(int k = 0; k < solucion_temp.size();k++){
+                temp = solucion_temp[k];
+                solucion_temp[k] = aleatorio_vecindad; 
+                // Calculo de la nueva distancia
+                dist_temp= 0.0;
+                for(int i=0; i < solucion_temp.size()-1; i++){
+                    for(int j = i+1; j < solucion_temp.size();j++){
+                        dist_temp += costos[solucion_temp[i]][solucion_temp[j]];
+                    }
                 }
+                if(dist_temp > dist_sol){
+                    dist_sol = dist_temp;
+                    numero_seleccionado = k;
+                    cambio = true;
+                    break;
+                }
+                solucion_temp[k] = temp;
             }
-            if(dist_temp > dist_sol){
-                dist_sol = dist_temp;
-                numero_seleccionado = k;
-                cambio = true;
-                break;
+            if(cambio){
+                solucion_temp[numero_seleccionado]=aleatorio_vecindad;
+                intentos = -1;
+                cant_it = -1;
             }
-            solucion_temp[k] = temp;
         }
-        if(cambio){
-            solucion_temp[numero_seleccionado]=aleatorio_vecindad;
-            intentos = -1;
-        }
+        cant_it = cant_it+1;
     }
 
     // Imprimo la solucion obtenida
