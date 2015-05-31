@@ -104,6 +104,7 @@ int main () {
                     dist_sol = dist_temp;
                     numero_seleccionado = k;
                     cambio = true;
+                    break;
                 }
                 solucion_temp[k] = temp;
             }

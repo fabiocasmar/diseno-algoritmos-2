@@ -7,6 +7,9 @@
 #include <algorithm> 
 using namespace std;
 
+const int max_it = 100;
+const int max_tabu = 10;
+
 // Si no se declara en este punto, da error de tamaño de pila
 double costos[4000][4000];
 
@@ -15,10 +18,11 @@ int main () {
     // Variables
     int n = 0,m = 0,  temp = 0, temp_a = 0, temp_b = 0, 
         aleatorio_vecindad = 0, numero_seleccionado = 0, 
-        cant_it = 0, intentos = 0, max_it = 0;
+        cant_it = 0, intentos = 0;
     double dist_ant = 0.0, dist_temp = 0.0, dist_sol = 0.0;
-    bool cambio = false, valido = false;
-    vector< int > solucion_temp;
+    bool cambio = false, valido = false, en_lista_tabu= false;
+    vector< int > solucion_temp, solucion_temp_copia;
+    vector< vector< int > > lista_tabu;
     cout.precision(15);
     // Obtengo un valor del Reloj del Sistema, convierto los segundos
         // en un entero sin signo e inicializo la semilla
@@ -31,7 +35,6 @@ int main () {
         //  y de elementos del subconjunto
     cin >> n >> m;
 
-    max_it = 100;
     // Lectura de la distancia entre cada punto
     while(!cin.eof()){
         cin >> temp_a >> temp_b >> dist_temp;
@@ -53,8 +56,8 @@ int main () {
             solucion_temp.push_back(temp);
         }
     }
-    sort(solucion_temp.begin(), solucion_temp.end())
-
+    sort(solucion_temp.begin(), solucion_temp.end());
+    lista_tabu.push_back(solucion_temp);
     // Calculo de la sumatoria de la solucion Inicial
     dist_sol = 0.0;
     for(int i=0; i < solucion_temp.size()-1; i++){
@@ -92,33 +95,50 @@ int main () {
             for(int k = 0; k < solucion_temp.size();k++){
                 temp = solucion_temp[k];
                 solucion_temp[k] = aleatorio_vecindad; 
-                // Calculo de la nueva distancia
-                dist_temp= 0.0;
-                for(int i=0; i < solucion_temp.size()-1; i++){
-                    for(int j = i+1; j < solucion_temp.size();j++){
-                        dist_temp += costos[solucion_temp[i]][solucion_temp[j]];
+                solucion_temp_copia.clear();
+                solucion_temp_copia=solucion_temp;
+                sort(solucion_temp_copia.begin(), solucion_temp_copia.end());
+                for(int l=0;l<lista_tabu.size();l++){
+                    en_lista_tabu=lista_tabu[l]==solucion_temp_copia;
+                    if(en_lista_tabu) break;
+                }
+                if(!(en_lista_tabu)){    
+                    // Calculo de la nueva distancia
+                    dist_temp= 0.0;
+                    for(int i=0; i < solucion_temp.size()-1; i++){
+                        for(int j = i+1; j < solucion_temp.size();j++){
+                            dist_temp += costos[solucion_temp[i]][solucion_temp[j]];
+                        }
                     }
+                    if(dist_temp > dist_sol){
+                        dist_ant = dist_sol;
+                        dist_sol = dist_temp;
+                        numero_seleccionado = k;
+                        cambio = true;
+                    }
+                    solucion_temp[k] = temp;
                 }
-                if(dist_temp > dist_sol){
-                    dist_ant = dist_sol;
-                    dist_sol = dist_temp;
-                    numero_seleccionado = k;
-                    cambio = true;
-                }
-                solucion_temp[k] = temp;
             }
             if(cambio){
                 solucion_temp[numero_seleccionado]=aleatorio_vecindad;
                 sort(solucion_temp.begin(), solucion_temp.end());
                 intentos = -1;
                 cant_it = -1;
-                //cout << dist_sol << endl;
+                lista_tabu.push_back(solucion_temp);
+                if(lista_tabu.size() > max_tabu){
+                    lista_tabu.erase(lista_tabu.begin());
+                }
             }
             cant_it = cant_it+1;
         }
 
     }
-
+    for(int i = 0;i<lista_tabu.size();i++){
+        for(int j = 0;j<solucion_temp.size();j++){
+            cout << lista_tabu[i][j] << " ";
+        }
+        cout << endl;
+    }
     // Imprimo la solucion obtenida
     cout << dist_sol << endl;
   }
