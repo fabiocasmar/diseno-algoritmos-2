@@ -1,17 +1,39 @@
 CC    = g++
-SRCS  = mdpPrimerMejorVecindad.cpp
-OBJS  = mdpPrimerMejorVecindad.o
-EXE   = mdpPrimerMejorVecindad
+SRCS  = mdp.cpp
+OBJS  = mdp.o
+EXE   = mdp
+LS    = LS/
+ILS   = ILS/
+TS    =	TS/
+MA    = MA/
+GA    = GA/
 FLAGS = -O3
 
-all: $(SRCS) $(EXE)
-	rm -f *.o
+all: ils ts ma ga
 
-$(EXE): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $@
+ils: $(ILS)$(OBJS)
+	$(CC) $(FLAGS) $(OBJS) -o $(ILS)$(EXE); rm -f *.o
 
-%.o: %.cpp
+ts: $(TS)$(OBJS)
+	$(CC) $(FLAGS) $(OBJS) -o $(TS)$(EXE); rm -f *.o
+
+ma: $(MA)$(OBJS)
+	$(CC) $(FLAGS) $(OBJS) -o $(MA)$(EXE); rm -f *.o
+
+ga: $(GA)$(OBJS)
+	$(CC) $(FLAGS) $(OBJS) -o $(GA)$(EXE); rm -f *.o
+
+$(ILS)%.o: $(ILS)%.cpp
+	$(CC) $(FLAGS) -c $<
+
+$(TS)%.o: $(TS)%.cpp
+	$(CC) $(FLAGS) -c $<
+
+$(MA)%.o: $(MA)%.cpp
+	$(CC) $(FLAGS) -c $<
+
+$(GA)%.o: $(GA)%.cpp
 	$(CC) $(FLAGS) -c $<
 
 clean:
-	rm -f $(EXE) *.o
+	find . -name "mdp" -type f -delete
