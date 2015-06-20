@@ -1,0 +1,20 @@
+#! /bin/bash
+
+for file in $2*.*; do
+    outE=`echo ${file%.*}`
+    name=`basename $outE`
+    i=0
+    echo ",$name"
+    while (($i < 10)); do
+        echo -n ",$((i + 1))"
+        cmd="./$1 < $file"
+        exec 3>&1 4>&2
+        var=$( { time eval $cmd -args 1>&3 2>&4; } 2>&1 | awk -F'[s.]' '/user/{print $0}')  # Captures time only.
+        exec 3>&- 4>&-
+
+        echo -n ","
+        echo $var
+        i=$((i + 1))
+    done
+    echo
+done
