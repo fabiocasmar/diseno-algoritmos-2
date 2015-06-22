@@ -1,39 +1,55 @@
-CC    = g++
-SRCS  = mdp.cpp
-OBJS  = mdp.o
-EXE   = mdp
-LS    = LS/
-ILS   = ILS/
-TS    =	TS/
-MA    = MA/
-GA    = GA/
-FLAGS = -O3
+CC   = g++
+LIB  = solution
+SRC  = mdp.cpp
+OBJS = solution.o mdp.o
+EXE  = mdp
+LS   = LS/
+ILS  = ILS/
+ITS  = ITS/
+TS   = TS/
+MA   = MA/
+GA   = GA/
+FLAG = -O3
 
-all: ils ts ma ga
+all: ls ils its ts ma ga
+	rm -f $(LIB).o
 
-ils: $(ILS)$(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(ILS)$(EXE); rm -f *.o
+ls: $(LIB)
+	$(CC) $(FLAG) -c $(LS)mdp_pmv.cpp
+	$(CC) $(FLAG) $(LIB).o mdp_pmv.o -o $(LS)mdp_pmv
+	$(CC) $(FLAG) -c $(LS)mdp_mv.cpp
+	$(CC) $(FLAG) $(LIB).o mdp_mv.o -o $(LS)mdp_mv
+	rm -f mdp_pmv.o mdp_mv.o
 
-ts: $(TS)$(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(TS)$(EXE); rm -f *.o
+ils: $(LIB)
+	$(CC) $(FLAG) -c $(ILS)$(SRC)
+	$(CC) $(FLAG) $(OBJS) -o $(ILS)$(EXE)
+	rm -f $(EXE).o
 
-ma: $(MA)$(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(MA)$(EXE); rm -f *.o
+its: $(LIB)
+	$(CC) $(FLAG) -c $(ITS)$(SRC)
+	$(CC) $(FLAG) $(OBJS) -o $(ITS)$(EXE)
+	rm -f $(EXE).o
 
-ga: $(GA)$(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(GA)$(EXE); rm -f *.o
+ts: $(LIB)
+	$(CC) $(FLAG) -c $(TS)$(SRC)
+	$(CC) $(FLAG) $(OBJS) -o $(TS)$(EXE)
+	rm -f $(EXE).o
 
-$(ILS)%.o: $(ILS)%.cpp
-	$(CC) $(FLAGS) -c $<
+ma: $(LIB)
+	$(CC) $(FLAG) -c $(MA)$(SRC)
+	$(CC) $(FLAG) $(OBJS) -o $(MA)$(EXE)
+	rm -f $(EXE).o
 
-$(TS)%.o: $(TS)%.cpp
-	$(CC) $(FLAGS) -c $<
+ga: $(LIB)
+	$(CC) $(FLAG) -c $(GA)$(SRC)
+	$(CC) $(FLAG) $(OBJS) -o $(GA)$(EXE)
+	rm -f $(EXE).o
 
-$(MA)%.o: $(MA)%.cpp
-	$(CC) $(FLAGS) -c $<
-
-$(GA)%.o: $(GA)%.cpp
-	$(CC) $(FLAGS) -c $<
+$(LIB):
+	$(CC) $(FLAG) -c lib/$@.cpp
 
 clean:
 	find . -name "mdp" -type f -delete
+	rm -f $(LS)mdp_pmv $(LS)mdp_mv
+	rm -f *.o
