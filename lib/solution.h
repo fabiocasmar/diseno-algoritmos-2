@@ -6,7 +6,7 @@
 using namespace std;
 
 #define MSIZE 3000
-#define MAXIT 50
+#define MAXIT 750
 
 struct Solution
 {

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define ITERS 10
+#define ITERS 6
 
 void pertubar_solucion(Solution *pert, Solution *actl, int n, int m, double (*cost)[MSIZE][MSIZE])
 {

@@ -35,7 +35,7 @@ void ls_pmv_ts(Solution *sol, double distance, int n, int m, double (*cost)[MSIZ
     int intentos           = 0,
         aleatorio_vecindad = 0;
 
-    int max_ocur = int((double(n)/(double(n-m)))*2.0) + (double(MAXIT)*0.015);
+    int max_ocur = int((double(n)/(double(n-m)))*2.0) + (double(MAXIT)*0.02);
 
     double dist_ant  = 0.0,
            dist_temp = 0.0;
@@ -223,7 +223,7 @@ int main()
 
     new_generation(&generacion, n, m, &costos);
 
-    cout << "," << generacion[0].distance;
+    cout << ", " << generacion[0].distance;
 
     for (int i = 0; i < MAXGN; i++)
     {
@@ -233,5 +233,5 @@ int main()
 
     sort(generacion.begin(), generacion.end(), greater_than_distance());
 
-    cout << "," << generacion[0].distance;
+    cout << ", " << generacion[0].distance;
 }

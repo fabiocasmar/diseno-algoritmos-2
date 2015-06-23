@@ -142,9 +142,8 @@ int main()
     }
 
     new_generation(&generacion, n, m, &costos);
-    sort(generacion.begin(), generacion.end(), greater_than_distance());
 
-    cout << "," << generacion[0].distance;
+    cout << ", " << generacion[0].distance;
 
     for (int i = 0; i < MAXGN; i++)
     {
@@ -155,5 +154,5 @@ int main()
 
     sort(generacion.begin(), generacion.end(), greater_than_distance());
 
-    cout << "," << generacion[0].distance;
+    cout << ", " << generacion[0].distance;
 }

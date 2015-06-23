@@ -3,9 +3,9 @@
 using namespace std;
 
 #define SEED 67219
-#define MAXGN 20
-#define POBLA 2
-#define NEWPL 0.5
+#define MAXGN 5
+#define POBLA 3
+#define NEWPL 0.7
 
 bool is_included(vector<int> *v, int e);
 

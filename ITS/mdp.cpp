@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define ITERS 10
+#define ITERS 6
 #define TABUS 0.75
 
 bool is_included(vector<int> *v, int e)
@@ -36,7 +36,7 @@ void ls_pmv_ts(Solution *sol, double distance, int n, int m, double (*cost)[MSIZ
     int intentos           = 0,
         aleatorio_vecindad = 0;
 
-    int max_ocur = int((double(n)/(double(n-m)))*2.0) + (double(MAXIT)*0.015);
+    int max_ocur = int((double(n)/(double(n-m)))*2.0) + (double(MAXIT)*0.02);
 
     double dist_ant  = 0.0,
            dist_temp = 0.0;
