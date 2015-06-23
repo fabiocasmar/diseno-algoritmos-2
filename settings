@@ -1,0 +1,26 @@
+TS
+
+Numero de iteraciones de LS 1500
+
+ILS
+
+Numero de iteraciones 6
+Numero de iteraciones de LS 180
+
+ITS
+
+Numero de iteraciones 6
+Numero de iteraciones de LS 180
+
+GA
+
+Poblacion 500
+Numero de generaciones 70
+Conjunto referencial 0.4
+
+MA
+
+Numero de iteraciones de LS 750
+Poblacion 3
+Numero de generaciones 5
+Conjunto referencial 0.7
